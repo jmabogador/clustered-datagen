@@ -68,15 +68,6 @@ def app():
         # Add column names to the DataFrame
         df = df.rename(columns={0: 'X', 1: 'Y', 2: 'Class'})
 
-        fig, ax = plt.subplots()
-        # Create the horizontal barplot
-        sns.countplot(y='Class', data=df, hue='Class', palette='bright', ax=ax)
-
-        # Add the title
-        ax.set_title('Plot of Target Class Distribution')
-        # Display the plot using Streamlit
-        st.pyplot(fig)
-
         # Extract data and classes
         x = df['X']
         y = df['Y']
@@ -84,7 +75,7 @@ def app():
 
         # Create a figure and axes object
         fig, ax = plt.subplots()
-
+        ax.set_title('Plot of Data Clusters')
         # Create the scatterplot using the axes object
         sns.scatterplot(
             x = "X",
