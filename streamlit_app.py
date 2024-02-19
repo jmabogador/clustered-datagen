@@ -98,13 +98,13 @@ def app():
         if enabledownload:
             # Add download button with enhanced error handling and feedback
             csv_file = BytesIO()
-            data.to_csv(csv_file, index=False)
+            df.to_csv(csv_file, index=False)
             csv_file.seek(0)
 
             download_button = st.download_button(
                 label="Download CSV",
                 data=csv_file,
-                file_name="dataset.csv",
+                file_name="clustered_data.csv",
                 mime="text/csv",
                 on_click=None,  # Disable immediate download on page load
             )
