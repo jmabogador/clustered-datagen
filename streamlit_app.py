@@ -77,6 +77,28 @@ def app():
         # Display the plot using Streamlit
         st.pyplot(fig)
 
+        # Extract data and classes
+        x = df['X']
+        y = df['Y']
+        classes = df['Class'].unique()
+
+        # Create a figure and axes object
+        fig, ax = plt.subplots()
+
+        # Create the scatterplot using the axes object
+        sns.scatterplot(
+            x = "X",
+            y = "Y",
+            hue = "Class",
+            data = df,
+            palette="Set1",
+            ax=ax  # Specify the axes object
+        )
+
+        # Adjust layout and display the plot
+        plt.tight_layout()  # Improve spacing
+        st.pyplot(fig)
+
         if displaysummary:
             # Display other informative elements
             st.header("Data Information")
