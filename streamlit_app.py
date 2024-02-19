@@ -52,10 +52,11 @@ def app():
     n_samples = int(st.number_input("Enter the number of samples:"))
     cluster_std = st.number_input("Standard deviation (between 0 and 1):")
     random_state = int(st.number_input("Random seed (between 0 and 100):"))
+    n_clusters = int(st.number_input("Number of Clusters (between 2 and 6):"))
 
     if st.button('Start'):
 
-        centers = generate_random_points_in_square(-4, 4, -4, 4, 4)
+        centers = generate_random_points_in_square(-4, 4, -4, 4, n_clusters)
 
         X, y = make_blobs(n_samples=n_samples, n_features=2,
                         cluster_std=cluster_std, centers = centers,
