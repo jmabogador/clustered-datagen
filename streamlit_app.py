@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from io import BytesIO
+from sklearn.datasets import make_blobs
 
 def generate_random_points_in_square(x_min, x_max, y_min, y_max, num_points):
     """
