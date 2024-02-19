@@ -51,7 +51,7 @@ def app():
     # Get user's inputs
     n_samples = int(st.number_input("Enter the number of samples:"))
     cluster_std = st.number_input("Standard deviation (between 0 and 1):")
-    random_state = st.number_input("Random seed (between 0 and 100):")
+    random_state = int(st.number_input("Random seed (between 0 and 100):"))
 
     if st.button('Start'):
 
