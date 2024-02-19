@@ -6,10 +6,30 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from io import BytesIO
 
+def generate_random_points_in_square(x_min, x_max, y_min, y_max, num_points):
+    """
+    Generates a NumPy array of random points within a specified square region.
+
+    Args:
+        x_min (float): Minimum x-coordinate of the square.
+        x_max (float): Maximum x-coordinate of the square.
+        y_min (float): Minimum y-coordinate of the square.
+        y_max (float): Maximum y-coordinate of the square.
+        num_points (int): Number of points to generate.
+
+    Returns:
+        numpy.ndarray: A 2D NumPy array of shape (num_points, 2) containing the generated points.
+    """
+
+    # Generate random points within the defined square region
+    points = np.random.uniform(low=[x_min, y_min], high=[x_max, y_max], size=(num_points, 2))
+
+    return points
+
 # Define the Streamlit app
 def app():
     # Display the DataFrame with formatting
-    st.title("Generate Dataset with Features and Classes")
+    st.title("Generate Clustered Data")
     st.write(
         """This app generates  dataset with balanced classes 
         and informative features to facilitate exploration and analysis."""
@@ -26,32 +46,26 @@ def app():
         enabledownload = True
     else:
         enabledownload = False
+
+    # Get user's inputs
+    n_samples = st.number_input("Enter the number of samples:")
+    cluster_std = st.number_input("Standard deviation (between 0 and 1):")
+    random_state = st.number_input("Random seed (between 0 and 100):")
+
     if st.button('Start'):
-        # Data generation with balanced classes and informative features
-        np.random.seed(42)  # For reproducibility
-        num_samples = 100
-        feature1 = np.random.normal(3, 2, size=num_samples)
-        feature2 = np.random.normal(4, 3, size=num_samples)
 
-        # Create informative classes based on features
-        threshold = 8
-        classes = (feature1 + 2 * feature2) > threshold
-        labels = ['Class A' if label else 'Class B' for label in classes]
+        centers = generate_random_points_in_square(-4, 4, -4, 4, 4)
 
-        # Combine features and labels into a DataFrame
-        data = pd.DataFrame({
-            'Feature 1': feature1,
-            'Feature 2': feature2,
-            'Class': labels,
-        })
+        X, y = make_blobs(n_samples=n_samples, n_features=2,
+                        cluster_std=cluster_std, centers = centers,
+                        random_state=random_state)
 
-        st.dataframe(data.style.set_properties(
-            caption="Dataset Preview",
-            align="center",
-            index_label="#",
-        ))
+        #use the Numpy array to merge the data and test columns
+        dataset = np.column_stack((X, y))
 
-        df = pd.DataFrame(data)
+        df = pd.DataFrame(dataset)
+        # Add column names to the DataFrame
+        df = df.rename(columns={0: 'X', 1: 'Y', 2: 'Class'})
 
         fig, ax = plt.subplots()
         # Create the horizontal barplot
